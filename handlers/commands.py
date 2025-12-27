@@ -328,3 +328,14 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     await update.message.reply_text(help_text, parse_mode=ParseMode.HTML)
+
+async def active_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    from config import config
+    
+    if update.effective_user.id == config.ADMIN_ID:
+        config.BOT_ACTIVE = True
+        await update.message.reply_text(
+            "✅ **Бот включен!** Теперь реагирую на 🎰 и команды."
+        )
+    else:
+        await update.message.reply_text("⛔ Только администратор!")
