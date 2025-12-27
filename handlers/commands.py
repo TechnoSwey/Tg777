@@ -1,5 +1,6 @@
-from datetime import datetime
-from typing import Dict
+import logging
+from datetime import datetime, timedelta
+from typing import Dict, List, Tuple
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 from telegram.constants import ParseMode
@@ -329,13 +330,32 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     await update.message.reply_text(help_text, parse_mode=ParseMode.HTML)
 
+# ========== АКТИВАЦИЯ/ДЕАКТИВАЦИЯ БОТА ==========
+
 async def active_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Команда /active - включить бота"""
     from config import config
     
     if update.effective_user.id == config.ADMIN_ID:
         config.BOT_ACTIVE = True
         await update.message.reply_text(
-            "✅ **Бот включен!** Теперь реагирую на 🎰 и команды."
+            "✅ **Бот включен!**\n"
+            "Теперь я реагирую на 🎰 и команды.",
+            parse_mode="HTML"
+        )
+    else:
+        await update.message.reply_text("⛔ Только администратор!")
+
+async def inactive_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Команда /inactive - выключить бота"""
+    from config import config
+    
+    if update.effective_user.id == config.ADMIN_ID:
+        config.BOT_ACTIVE = False
+        await update.message.reply_text(
+            "⏸️ **Бот выключен!**\n"
+            "Не реагирую на 🎰 до команды /active.",
+            parse_mode="HTML"
         )
     else:
         await update.message.reply_text("⛔ Только администратор!")
