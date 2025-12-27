@@ -48,6 +48,12 @@ class DiceChecker:
 
 async def handle_dice_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Обработчик сообщений с эмодзи 🎰"""
+    
+    # ========== ПРОВЕРКА АКТИВНОСТИ БОТА ==========
+    if not config.BOT_ACTIVE:
+        return  # БОТ ВЫКЛЮЧЕН - ВЫХОДИМ
+    # ==============================================
+    
     try:
         message = update.message
         
