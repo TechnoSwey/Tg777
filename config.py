@@ -11,6 +11,8 @@ class Config:
         
         # ID администратора
         self.ADMIN_ID = int(self._get_env_var('ADMIN_ID', '0'))
+
+        self.BOT_ACTIVE = True
         
         # Настройки турнира
         self.MAX_TOURNAMENT_DURATION = 1440  # Максимум 24 часа в минутах
